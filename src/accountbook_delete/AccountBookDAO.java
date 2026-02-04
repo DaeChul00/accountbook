@@ -56,7 +56,7 @@ public class AccountBookDAO implements AccountBook5{
 	            String type = rs.getString("type");
 	            int amount = rs.getInt("amount");
 	            String category = rs.getString("category");
-	            java.util.Date date = rs.getDate("adate");
+	            String date = rs.getString("date");
 	            String memo = rs.getString("memo");
 	            AccountBook ab = new AccountBook(_id, type, amount, category, date, memo);
 	            rs.close(); 
@@ -69,6 +69,48 @@ public class AccountBookDAO implements AccountBook5{
 	        e.printStackTrace();
 	        return null;
 	    }
+	}
+
+	@Override
+	public int insert(AccountBook ab) {
+		try {
+			String sql="insert into accountbook values(?,?,?,?,?,?)";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setInt(1, ab.getId());
+			ps.setString(2, ab.getType());
+			ps.setInt(3, ab.getAmount());
+			ps.setString(4, ab.getCategory());
+			ps.setString(5, ab.getDate());
+			ps.setString(6, ab.getMemo());
+			int result=ps.executeUpdate();
+			
+			ps.close();
+			
+			return result;
+			
+			}catch (Exception e) {
+				e.printStackTrace();
+				return 0;
+			}
+	}
+
+	@Override
+	public int count() {
+		try {
+			String sql="select count(*) as cnt from accountbook";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()) {
+				int cnt=rs.getInt("cnt");
+				rs.close();ps.close();
+				return cnt;
+			}
+			return -1;
+			
+			}catch (Exception e) {
+				e.printStackTrace();
+				return -1;
+			}	
 	}
 
 	

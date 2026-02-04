@@ -13,14 +13,14 @@ public class AccountBook {
 	private String type; //수입 또는 지출
 	private int amount; //금액
 	private String category; //분류
-	private Date date; //사용날짜 or java.sql.Date
+	private String date; //사용날짜 or java.sql.Date
 	private String memo;
 	
 	public AccountBook() {
 		
 	}
 
-	public AccountBook(int id, String type, int amount, String category, Date date, String memo) {
+	public AccountBook(int id, String type, int amount, String category, String date, String memo) {
 		this.id = id;
 		this.type = type;
 		this.amount = amount;
@@ -61,11 +61,11 @@ public class AccountBook {
 		this.category = category;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

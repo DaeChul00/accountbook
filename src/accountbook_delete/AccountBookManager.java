@@ -1,5 +1,7 @@
 package accountbook_delete;
 
+import java.util.Date;
+
 public class AccountBookManager {
 	
 	AccountBook5 dao;
@@ -21,6 +23,11 @@ public class AccountBookManager {
 			return false;
 		}
 		return true;
+	}
+	
+	public void insert(String type, int amount, String category, String date, String memo) {
+		int id=dao.count()+1;
+		dao.insert(new AccountBook(id, type, amount, category, date, memo));
 	}
 	
 }
