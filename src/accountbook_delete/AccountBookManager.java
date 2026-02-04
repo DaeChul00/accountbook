@@ -25,9 +25,9 @@ public class AccountBookManager {
 		return true;
 	}
 	
-	public void insert(String type, int amount, String category, String date, String memo) {
+	public void insert(String type, int amount, String category, String adate, String memo) {
 		int id=dao.count()+1;
-		dao.insert(new AccountBook(id, type, amount, category, date, memo));
+		dao.insert(new AccountBook(id, type, amount, category, adate, memo));
 	}
 	
 }

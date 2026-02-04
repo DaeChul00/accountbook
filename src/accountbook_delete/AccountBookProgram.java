@@ -9,7 +9,7 @@ public class AccountBookProgram {
     String type; //수입 또는 지출
 	int amount; //금액
 	String category; //분류
-	String date; //사용날짜
+	String adate; //사용날짜
 	String memo; 
 
     public AccountBookProgram(AccountBook5 dao) {
@@ -62,10 +62,10 @@ public class AccountBookProgram {
 		 System.out.println("가계부에 입력할 카테고리(식비,교통,월급 등) :");
 		 category=scan.next();
 		 System.out.println("가계부에 입력할 날짜(2000-00-00):");
-		 date=scan.next();
+		 adate=scan.next();
 		 System.out.println("가계부에 입력할 세부사항:");
 		 memo=scan.next();
 		 
-		 am.insert(type, amount, category, date, memo); 
+		 am.insert(type, amount, category, adate, memo); 
 	}
 }

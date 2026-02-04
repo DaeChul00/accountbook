@@ -56,9 +56,9 @@ public class AccountBookDAO implements AccountBook5{
 	            String type = rs.getString("type");
 	            int amount = rs.getInt("amount");
 	            String category = rs.getString("category");
-	            String date = rs.getString("date");
+	            String adate = rs.getString("adate");
 	            String memo = rs.getString("memo");
-	            AccountBook ab = new AccountBook(_id, type, amount, category, date, memo);
+	            AccountBook ab = new AccountBook(_id, type, amount, category, adate, memo);
 	            rs.close(); 
 	            ps.close();
 	            return ab;
