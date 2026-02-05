@@ -1,5 +1,6 @@
 package accountbook_delete;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -12,24 +13,37 @@ public class AccountBookProgram {
 	String adate; //사용날짜
 	String memo; 
 
-    public AccountBookProgram(AccountBook5 dao) {
+    public AccountBookProgram(AccountBook5 dao) throws IOException {
         am = new AccountBookManager(dao);
         while(true) {
         	switch(displayMenu()) {
    		 case 1: insert(); break;
-   		 case 5: delete(); break;
+   		 case 2: findAll(); break;
+   		 case 3: selectByCategory(); break;
+   		 case 4: changeAmount(); break;
+   		 case 5: changeCategory(); break;
+   		 case 6: delete(); break;
+   		 case 7: showSummary(); break;
    		 case 0: System.out.println("프로그램을 종료합니다.!");
    			 	System.exit(0);
    		 }	
         }
     }
 
-    public int displayMenu() {
+    
+
+
+	public int displayMenu() {
         System.out.println("+===================+");
         System.out.println("|    가계부 관리      |");
         System.out.println("+===================+");
         System.out.println("| 1.가계부 입력        |");
-        System.out.println("| 5. 내역 삭제        |");
+        System.out.println("| 2.가계부 전체조회     |");
+        System.out.println("| 3.가계부 선택조회     |");
+        System.out.println("| 4.가계부 금액변경     |");
+        System.out.println("| 5.가계부 카테고리변경  |");
+        System.out.println("| 6.선택 삭제         |");
+        System.out.println("| 7.수입/지출 통계보기  |");
         System.out.println("| 0. 종료            |");
         System.out.println("+===================+");
         System.out.print("선택: ");
@@ -68,4 +82,56 @@ public class AccountBookProgram {
 		 
 		 am.insert(type, amount, category, adate, memo); 
 	}
+    
+    
+    
+    public void selectByCategory() throws IOException {
+    	scan.nextLine();
+        System.out.print("찾을 카테고리를 입력하세요 >");
+        category = scan.nextLine();
+        am.selectByCategory(category);
+        System.in.read();
+    }
+    
+    private void findAll() throws IOException {
+		am.select();
+		System.in.read();
+	}
+    
+    private void changeAmount() {
+    	System.out.print("수정할 ID 입력: ");
+        int id = scan.nextInt();
+
+        System.out.print("변경할 금액 입력: ");
+        int amount = scan.nextInt();
+
+        if (amount < 0) {
+            System.out.println("금액은 음수가 될 수 없습니다.");
+            return;
+        }
+        am.changeAmount(id, amount);
+		
+	}
+    
+    private void changeCategory() {
+    	System.out.print("수정할 ID 입력: ");
+        int id = scan.nextInt();
+
+        System.out.print("변경할 카테고리 입력: ");
+        String category = scan.next();
+
+        if (category == null || category.trim().isEmpty()) {
+            System.out.println("카테고리는 비어있을 수 없습니다.");
+            return;
+        }
+        am.changeCategory(id, category);
+		
+	}
+    
+    private void showSummary() throws IOException {
+        am.showTotalSummary();
+        System.out.println("메뉴로 돌아가려면 Enter를 누르세요...");
+        System.in.read(); // 대기 기능
+    }
+
 }

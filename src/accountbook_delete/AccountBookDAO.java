@@ -1,9 +1,12 @@
 package accountbook_delete;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AccountBookDAO implements AccountBook5{
@@ -113,6 +116,155 @@ public class AccountBookDAO implements AccountBook5{
 			}	
 	}
 
+	@Override
+	public AccountBook findByCategory(String category) {
+		AccountBook ab = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from accountbook where category=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, category);
+            rs = ps.executeQuery();
+
+
+            if (!rs.next()) {
+                System.out.println("찾는 데이터가 없습니다.");
+                return null;
+            }
+
+            do{
+                int id = rs.getInt("id");
+                String type = rs.getString("type");
+                int amount = rs.getInt("amount");
+                category = rs.getString("category");
+                String adate = rs.getString("adate");
+                String memo = rs.getString("memo");
+                ab = new AccountBook(id, type, amount, category, adate, memo);
+                System.out.println(ab);
+            }
+            while (rs.next());
+
+            rs.close();
+            ps.close();
+            return ab;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+	}
+
+	@Override
+	public List<AccountBook> findAll() {
+		try {
+			String sql = "select * from AccountBook";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			
+			List<AccountBook> list = new ArrayList<AccountBook>();
+			
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String type = rs.getString("type");
+				int amount = rs.getInt("amount");
+				String category = rs.getString("category");
+				String adate = rs.getString("adate");
+				String memo = rs.getString("memo");
+				AccountBook ab = new AccountBook(id, type, amount, category, adate, memo);
+				list.add(ab);
+			}
+			rs.close();
+			ps.close();
+			return list;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public int getTotalIncome() {
+		int Income = 0;
+		
+		try {
+			String sql = "select sum(amount) as Income from AccountBook where type='수입'";
+			//"select sum(amount) as Expense from AccountBook where type='지출'";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs =ps.executeQuery();
+			
+			if(rs.next()) {
+				Income = rs.getInt("Income");
+			}
+			rs.close();
+			ps.close();
+			return Income;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public int getTotalExpense() {
+	int Expense = 0;
+			
+			try {
+				String sql = "select sum(amount) as Expense from AccountBook where type='지출'";
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ResultSet rs =ps.executeQuery();
+				
+				if(rs.next()) {
+					Expense = rs.getInt("Expense");
+				}
+				rs.close();
+				ps.close();
+				return Expense;
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				return 0;
+			}
+		}
+
+	@Override
+	public int ChangeAmount(AccountBook ab) {
+		int result = 0;
+        String sql = "UPDATE accountbook SET amount = ? WHERE id = ?";
+
+        try {
+
+        	PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, ab.getAmount());
+            ps.setInt(2, ab.getId());
+
+            result = ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+	}
+
+	@Override
+	public int ChangeCategory(AccountBook ab) {
+		int result = 0;
+        String sql = "UPDATE accountbook SET category = ? WHERE id = ?";
+        
+        try {
+        	PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, ab.getCategory());
+            ps.setInt(2, ab.getId());
+
+            result = ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+	}
 	
 
 }
