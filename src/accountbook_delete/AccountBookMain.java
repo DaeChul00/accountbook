@@ -5,7 +5,7 @@ import java.io.IOException;
 public class AccountBookMain {
 
 	public static void main(String[] args) throws IOException {
-		new AccountBookProgram(new AccountBookDAO());
+		new AccountBookProgram(new OracleAccountBookDAO());
 	}
 
 }

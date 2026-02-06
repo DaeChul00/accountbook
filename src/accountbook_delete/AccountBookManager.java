@@ -5,13 +5,13 @@ import java.util.List;
 
 public class AccountBookManager {
 	
-	AccountBook5 dao;
+	AccountBookDAO dao;
 	
 	public AccountBookManager() {
 		
 	}
 	
-	public AccountBookManager(AccountBook5 dao) {
+	public AccountBookManager(AccountBookDAO dao) {
 		this.dao=dao;
 	}
 	
@@ -32,8 +32,30 @@ public class AccountBookManager {
 	}
 	
 	public void selectByCategory(String category) {
-		System.out.println(dao.findByCategory(category));
+		List<AccountBook> list = dao.findByCategory(category);
+
+        if (list == null || list.isEmpty()) {
+            System.out.println("해당 카테고리 데이터가 없습니다.");
+            return;
+        }
+
+        for (AccountBook ab : list) {
+            System.out.println(ab);
+        }
 	}
+	
+	public void selectByType(String type) {
+        List<AccountBook> list = dao.findByType(type);
+
+        if (list == null || list.isEmpty()) {
+            System.out.println("해당 타입 데이터가 없습니다.");
+            return;
+        }
+
+        for (AccountBook ab : list) {
+            System.out.println(ab);
+        }
+    }
 
 	public void select() {
 		List<AccountBook> list = dao.findAll(); // 리스트를 받아옴

@@ -13,17 +13,18 @@ public class AccountBookProgram {
 	String adate; //사용날짜
 	String memo; 
 
-    public AccountBookProgram(AccountBook5 dao) throws IOException {
+    public AccountBookProgram(AccountBookDAO dao) throws IOException {
         am = new AccountBookManager(dao);
         while(true) {
         	switch(displayMenu()) {
    		 case 1: insert(); break;
    		 case 2: findAll(); break;
    		 case 3: selectByCategory(); break;
-   		 case 4: changeAmount(); break;
-   		 case 5: changeCategory(); break;
-   		 case 6: delete(); break;
-   		 case 7: showSummary(); break;
+   		 case 4: selectByType(); break;
+   		 case 5: changeAmount(); break;
+   		 case 6: changeCategory(); break;
+   		 case 7: delete(); break;
+   		 case 8: showSummary(); break;
    		 case 0: System.out.println("프로그램을 종료합니다.!");
    			 	System.exit(0);
    		 }	
@@ -39,11 +40,12 @@ public class AccountBookProgram {
         System.out.println("+===================+");
         System.out.println("| 1.가계부 입력        |");
         System.out.println("| 2.가계부 전체조회     |");
-        System.out.println("| 3.가계부 선택조회     |");
-        System.out.println("| 4.가계부 금액변경     |");
-        System.out.println("| 5.가계부 카테고리변경  |");
-        System.out.println("| 6.선택 삭제         |");
-        System.out.println("| 7.수입/지출 통계보기  |");
+        System.out.println("| 3.가계부 카테고리검색  |");
+        System.out.println("| 4.가계부 수입,지출검색 |");
+        System.out.println("| 5.가계부 금액변경     |");
+        System.out.println("| 6.가계부 카테고리변경  |");
+        System.out.println("| 7.선택 삭제         |");
+        System.out.println("| 8.수입/지출 통계보기  |");
         System.out.println("| 0. 종료            |");
         System.out.println("+===================+");
         System.out.print("선택: ");
@@ -90,6 +92,14 @@ public class AccountBookProgram {
         System.out.print("찾을 카테고리를 입력하세요 >");
         category = scan.nextLine();
         am.selectByCategory(category);
+        System.in.read();
+    }
+    
+    public void selectByType() throws IOException {
+    	scan.nextLine();
+        System.out.print("수입 또는 지출을 입력하세요 >>>");
+        type=scan.nextLine();
+        am.selectByType(type);
         System.in.read();
     }
     
