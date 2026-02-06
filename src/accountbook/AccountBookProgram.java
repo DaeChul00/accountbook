@@ -1,4 +1,4 @@
-package accountbook_delete;
+package accountbook;
 
 import java.io.IOException;
 import java.util.Date;
